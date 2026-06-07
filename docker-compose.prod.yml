@@ -14,9 +14,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.docker/config.json:/config.json:ro
     environment:
-      WATCHTOWER_POLL_INTERVAL: 300
+      WATCHTOWER_POLL_INTERVAL: 60
       WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_INCLUDE_STOPPED: "false"
       WATCHTOWER_ROLLING_RESTART: "true"
-    command: --interval 300 bot
+    command: --interval 60 bot
     restart: unless-stopped

@@ -13,6 +13,24 @@ PROJECT_ID=... PROJECT_SECRET=... AI_BASE_URL=... AI_API_KEY=... AI_MODEL=... bu
 
 text the bot `start` so it knows your chat. then it handles the rest.
 
+## run with docker
+
+local build:
+
+```bash
+docker compose up --build -d
+```
+
+production (prebuilt image):
+
+```bash
+docker compose -f docker-compose.prod.yml up -d
+```
+
+make sure your `.env` is present and a `./data` directory exists for the sqlite volume.
+
+`docker-compose.prod.yml` includes [watchtower](https://containrrr.dev/watchtower/) to automatically pull and restart the bot when a new image is pushed to your registry. it polls every 5 minutes and cleans up old images after updating.
+
 ## test it
 
 ```bash
