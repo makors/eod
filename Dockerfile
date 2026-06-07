@@ -13,19 +13,28 @@ RUN bun install --production --frozen-lockfile
 COPY index.ts tsconfig.json ./
 COPY src ./src
 
-# Create data directory and ensure it is writable by any user (helps with bind mounts)
-RUN mkdir -p /data && chmod 777 /data
+# gosu lets the entrypoint drop from root to the bot user after fixing
+# permissions on the mounted /data volume
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends gosu \
+  && rm -rf /var/lib/apt/lists/*
 
-# Run as a non-root user for security
+# Create the non-root user the bot runs as
 RUN groupadd -r bot && useradd -r -g bot bot
-USER bot
 
-# Volume for persistent SQLite database
+# Data directory for the persistent SQLite database
+RUN mkdir -p /data && chown bot:bot /data
 VOLUME ["/data"]
 
 # Default database path inside the container
 ENV BOT_DB_PATH=/data/eod.sqlite
 ENV NODE_ENV=production
+
+# Entrypoint runs as root, chowns the (possibly bind-mounted) /data volume,
+# then drops to the bot user. This keeps setup zero-config for the user.
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Run the bot
 CMD ["bun", "run", "index.ts"]
