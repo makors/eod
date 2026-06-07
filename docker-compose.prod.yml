@@ -9,7 +9,9 @@ services:
     restart: unless-stopped
 
   watchtower:
-    image: containrrr/watchtower
+    # maintained fork of the now-unmaintained containrrr/watchtower;
+    # supports newer Docker daemon API versions
+    image: nickfedor/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.docker/config.json:/config.json:ro

@@ -27,9 +27,9 @@ production (prebuilt image):
 docker compose -f docker-compose.prod.yml up -d
 ```
 
-make sure your `.env` is present and a `./data` directory exists for the sqlite volume.
+make sure your `.env` is present. the `./data` directory for the sqlite volume is created and permissioned automatically.
 
-`docker-compose.prod.yml` includes [watchtower](https://containrrr.dev/watchtower/) to automatically pull and restart the bot when a new image is pushed to your registry. it polls every 5 minutes and cleans up old images after updating.
+`docker-compose.prod.yml` includes [watchtower](https://github.com/nicholas-fedor/watchtower) (a maintained fork) to automatically pull and restart the bot when a new image is pushed to your registry. it polls every 60 seconds and cleans up old images after updating.
 
 ## test it
 
