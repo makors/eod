@@ -1,0 +1,22 @@
+services:
+  bot:
+    # Replace with your GHCR path, e.g. ghcr.io/makors/eod:latest
+    image: ghcr.io/YOUR_USERNAME/eod:latest
+    pull_policy: always
+    env_file: .env
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.docker/config.json:/config.json:ro
+    environment:
+      WATCHTOWER_POLL_INTERVAL: 300
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_INCLUDE_STOPPED: "false"
+      WATCHTOWER_ROLLING_RESTART: "true"
+    command: --interval 300 bot
+    restart: unless-stopped

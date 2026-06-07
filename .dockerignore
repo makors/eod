@@ -1,0 +1,14 @@
+node_modules
+.git
+.env
+.env.*
+*.log
+data/
+.DS_Store
+.vscode
+.idea
+Dockerfile
+docker-compose.yml
+*.md
+tests/
+coverage/
