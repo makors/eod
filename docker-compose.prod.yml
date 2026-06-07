@@ -1,7 +1,7 @@
 services:
   bot:
     # Replace with your GHCR path, e.g. ghcr.io/makors/eod:latest
-    image: ghcr.io/YOUR_USERNAME/eod:latest
+    image: ghcr.io/makors/eod:latest
     pull_policy: always
     env_file: .env
     volumes:
